@@ -17,7 +17,7 @@ namespace File_copier_service
             processInstaller = new ServiceProcessInstaller();
 
             processInstaller.Account = ServiceAccount.LocalSystem;
-            serviceInstaller.StartType = ServiceStartMode.Manual;
+            serviceInstaller.StartType = ServiceStartMode.Automatic;
             serviceInstaller.ServiceName = "TestService";
             Installers.Add(processInstaller);
             Installers.Add(serviceInstaller);
