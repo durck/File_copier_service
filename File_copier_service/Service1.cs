@@ -35,10 +35,15 @@ namespace File_copier_service
         FileSystemWatcher watcher;
         object obj = new object();
         bool enabled = true;
+        string path = @"D:\Temp";
         
         public Logger ()
         {
-            watcher = new FileSystemWatcher("D:\\Temp");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            watcher = new FileSystemWatcher(path);
             watcher.Deleted += Watcher_Deleted;
             watcher.Created += Watcher_Created;
             watcher.Changed += Watcher_Changed;
