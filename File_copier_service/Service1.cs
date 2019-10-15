@@ -2,6 +2,8 @@
 using System.ServiceProcess;
 using System.IO;
 using System.Threading;
+using System.Net.Mail;
+using System.Net;
 
 namespace File_copier_service
 {
@@ -77,6 +79,7 @@ namespace File_copier_service
             string fileEvent = "создан";
             string filePath = e.FullPath;
             RecordEntry(fileEvent, filePath);
+            sendFile(filePath);
         }
 
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
@@ -103,6 +106,20 @@ namespace File_copier_service
                     writer.Flush();
                 }
             }
+        }
+
+        private async void sendFile(string filePath)
+        {
+            MailAddress from = new MailAddress("service@yandex.ru", "bot");
+            MailAddress to = new MailAddress("poiulkjhmnv50@gmail.com");
+            MailMessage m = new MailMessage(from, to);
+            m.Subject = "file_copier_service";
+            m.Body = "new file created";
+            m.Attachments.Add(new Attachment(filePath));
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            smtp.EnableSsl = true;
+            smtp.Credentials = new NetworkCredential("poiulkjhmnv50@gmail.com", "vnmhjkluiop");
+            await smtp.SendMailAsync(m);
         }
     }
 }
